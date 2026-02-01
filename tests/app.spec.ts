@@ -9,7 +9,7 @@ test('has title', async ({ page }) => {
 test('can send a message', async ({ page }) => {
   await page.goto('/');
 
-  const sender = page.getByPlaceholder('Type your message here...');
+  const sender = page.getByPlaceholder('Type your message here…');
   await sender.fill('Hello AI');
   await sender.press('Enter');
 
