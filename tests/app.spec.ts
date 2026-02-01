@@ -13,5 +13,7 @@ test('can send a message', async ({ page }) => {
   await sender.fill('Hello AI');
   await sender.press('Enter');
 
-  await expect(page.locator('.ant-bubble').filter({ hasText: 'Hello AI' })).toBeVisible();
+  await expect(
+    page.locator('.ant-bubble-end .ant-bubble-content').filter({ hasText: 'Hello AI' })
+  ).toBeVisible();
 });

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Bubble, Sender, Welcome } from '@ant-design/x';
-import { Flex, Typography, theme, Button } from 'antd';
+import { Flex, Typography, theme, Button, message } from 'antd';
 import { ConsoleSqlOutlined } from '@ant-design/icons';
+import ollama from 'ollama/browser';
 import Terminal from './Terminal';
 
 const App: React.FC = () => {
@@ -10,33 +11,56 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [showTerminal, setShowTerminal] = useState(false);
 
-  const handleSend = (content: string) => {
+  const handleSend = async (content: string) => {
     if (!content.trim()) return;
 
     setLoading(true);
     const userMessageId = Date.now().toString();
 
-    setMessages((prev) => [
-      ...prev,
+    const newMessages = [
+      ...messages,
       {
         content: content.trim(),
-        role: 'user',
+        role: 'user' as const,
         id: userMessageId,
       },
-    ]);
+    ];
 
-    // Simulate AI response
-    setTimeout(() => {
+    setMessages(newMessages);
+
+    try {
+      const response = await ollama.chat({
+        model: 'llama3.2',
+        messages: newMessages.map((msg) => ({
+          role: msg.role === 'ai' ? 'assistant' : 'user',
+          content: msg.content,
+        })),
+      });
+
       setMessages((prev) => [
         ...prev,
         {
-          content: `This is a simulated response to: "${content}"`,
+          content: response.message.content,
           role: 'ai',
-          id: (Date.now() + 1).toString(),
+          id: Date.now().toString(),
         },
       ]);
+    } catch (error) {
+      console.error('Ollama error:', error);
+      message.error('Failed to connect to Ollama. Please ensure it is running.');
+
+      // Fallback to simulated response for demo purposes
+      setMessages((prev) => [
+        ...prev,
+        {
+          content: `(Fallback) I couldn't reach Ollama, but I heard you say: "${content}"`,
+          role: 'ai',
+          id: Date.now().toString(),
+        },
+      ]);
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   return (
