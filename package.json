@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vatsapiofficial/Achievements.git"
@@ -19,5 +21,11 @@
   "devDependencies": {
     "@playwright/test": "^1.58.1",
     "@types/node": "^25.1.0"
+  },
+  "dependencies": {
+    "@ant-design/x": "^2.2.1",
+    "antd": "^6.2.2",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
   }
 }
