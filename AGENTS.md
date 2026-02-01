@@ -7,6 +7,14 @@ argument-hint: <file-or-pattern>
 
 Review these files for compliance: $ARGUMENTS
 
+## Recommended Tools
+
+- **MCP Server**: Use the `chrome-devtools` MCP server to inspect the browser state during development and testing.
+  - Command: `npx -y chrome-devtools-mcp@latest`
+- **MCP Resources**:
+  - [DeepWiki MCP Registry](https://mcp.deepwiki.com/mcp)
+  - [GitHub Copilot MCP](https://api.githubcopilot.com/mcp/)
+
 Read files, check against rules below. Output concise but comprehensive—sacrifice grammar for brevity. High signal-to-noise.
 
 ## Rules

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Bubble, Sender, Welcome } from '@ant-design/x';
 import { Flex, Typography, theme, Button, message } from 'antd';
 import { ConsoleSqlOutlined } from '@ant-design/icons';
-import ollama from 'ollama/browser';
 import Terminal from './Terminal';
 
 const App: React.FC = () => {
@@ -29,13 +28,24 @@ const App: React.FC = () => {
     setMessages(newMessages);
 
     try {
-      const response = await ollama.chat({
-        model: 'llama3.2',
-        messages: newMessages.map((msg) => ({
-          role: msg.role === 'ai' ? 'assistant' : 'user',
-          content: msg.content,
-        })),
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: newMessages.map((msg) => ({
+            role: msg.role === 'ai' ? 'assistant' : 'user',
+            content: msg.content,
+          })),
+        }),
       });
+
+      if (!res.ok) {
+        throw new Error('Failed to fetch from API');
+      }
+
+      const response = await res.json();
 
       setMessages((prev) => [
         ...prev,

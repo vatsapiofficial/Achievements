@@ -60,6 +60,28 @@ Format code with Prettier:
 npm run format
 ```
 
+## Model Context Protocol (MCP)
+
+This project recommends using the [Chrome DevTools MCP server](https://github.com/michaelfig/chrome-devtools-mcp) for enhanced debugging and browser visibility during development.
+
+Add the following to your MCP client configuration (e.g., Claude Desktop, Cursor):
+
+```json
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"]
+    }
+  }
+}
+```
+
+### Additional Resources
+
+- [DeepWiki MCP Registry](https://mcp.deepwiki.com/mcp)
+- [GitHub Copilot MCP](https://api.githubcopilot.com/mcp/)
+
 ## License
 
 MIT
